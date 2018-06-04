@@ -47,7 +47,6 @@ public class SquidReportTable extends Application {
         primaryStage.show();
         primaryStage.setMinHeight(scene.getHeight() + 15);
         primaryStage.setMinWidth(scene.getWidth());
-
     }
 
     /**

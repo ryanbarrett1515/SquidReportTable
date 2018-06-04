@@ -10,7 +10,7 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <Button fx:id="selectCSVButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectCSVButton" prefHeight="27.0" prefWidth="281.0" text="Select CSV File" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-            <TableView fx:id="reportsTable" layoutX="14.0" layoutY="49.0" prefHeight="339.0" prefWidth="616.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="49.0" />
+            <TableView fx:id="reportsTable" layoutX="14.0" layoutY="47.0" prefHeight="342.0" prefWidth="609.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="47.0" />
       </children>
     </AnchorPane>
   </children>
