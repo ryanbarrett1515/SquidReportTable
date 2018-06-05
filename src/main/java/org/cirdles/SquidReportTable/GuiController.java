@@ -7,7 +7,6 @@ package org.cirdles.SquidReportTable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,9 +26,10 @@ public class GuiController implements Initializable {
     @FXML
     private Button selectCSVButton;
     @FXML
-    private TableView<ObservableList<SimpleStringProperty>> reportsTable;
-    
+    private TableView<ObservableList<String>> reportsTable;
+
     String[][] textArray;
+    String tableStyle;
 
     /**
      * Initializes the controller class.
@@ -37,6 +37,7 @@ public class GuiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         textArray = new String[0][0];
+        tableStyle = "";
     }
 
     @FXML
@@ -44,4 +45,6 @@ public class GuiController implements Initializable {
         textArray = CSVExtractor.extractCSVFile(FileHandler.getFile());
         TextArrayManager.manageArray(reportsTable, textArray);
     }
+    
+    
 }
