@@ -32,7 +32,7 @@ public class TextArrayManager {
                 table.getColumns().add(header);
             }
         }
-//        setItemsInTable(table, textArray);
+        setItemsInTable(table, textArray);
     }
 
     public static String getColumnName(int col, String[][] textArray) {
@@ -40,10 +40,11 @@ public class TextArrayManager {
     }
 
     public static void setItemsInTable(TableView<ObservableList<String>> table, String[][] array) {
+        table.setItems(FXCollections.observableArrayList());
         int startSpot = Integer.parseInt(array[0][0]);
-        for (int j = 2; j < array[0].length - 1; j++) {
+        for (int i = startSpot; i < array.length; i++) {
             ObservableList<String> data = FXCollections.observableArrayList();
-            for (int i = startSpot; i < array.length; i++) {
+            for (int j = 2; j < array[0].length - 1; j++) {
                 data.add(array[i][j]);
             }
             table.getItems().add(data);
