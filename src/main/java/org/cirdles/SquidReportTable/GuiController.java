@@ -45,6 +45,7 @@ public class GuiController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         buttonState = ButtonTypes.accepted;
         tableStyle = "";
+        selectCSVButton(new ActionEvent());
     }
 
     @FXML
