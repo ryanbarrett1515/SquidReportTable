@@ -39,7 +39,7 @@ public class TextArrayManager {
         return textArray[1][col] + textArray[2][col] + textArray[3][col];
     }
 
-    public static void setItemsInTable(TableView<ObservableList<String>> table, String[][] array) {
+    public static void setItemsInTable(TableView<ObservableList<String>> table, String[][] array) { 
         table.setItems(FXCollections.observableArrayList());
         int startSpot = Integer.parseInt(array[0][0]);
         for (int i = startSpot; i < array.length; i++) {
