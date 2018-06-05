@@ -42,10 +42,8 @@ public class SquidReportTable extends Application {
         });
 
         scene.setRoot(FXMLLoader.load(getClass().getResource("SquidReportTableGUI.fxml")));
-        primaryStage.setHeight(800);
-        primaryStage.setWidth(1280);
         primaryStage.show();
-        primaryStage.setMinHeight(scene.getHeight() + 15);
+        primaryStage.setMinHeight(scene.getHeight());
         primaryStage.setMinWidth(scene.getWidth());
     }
 

@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
 
@@ -27,24 +28,54 @@ public class GuiController implements Initializable {
     private Button selectCSVButton;
     @FXML
     private TableView<ObservableList<String>> reportsTable;
-
-    String[][] textArray;
-    String tableStyle;
-
+@FXML
+    private Button fracationsButtons;
+    @FXML
+    private TextField acceptedRejectedTextField;
+    
+    private String[][] textArray;
+    private TextArrayManager tableManager;
+    private String tableStyle;
+    private ButtonTypes buttonState;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textArray = new String[0][0];
+        buttonState = ButtonTypes.accepted;
         tableStyle = "";
     }
 
     @FXML
     private void selectCSVButton(ActionEvent event) {
         textArray = CSVExtractor.extractCSVFile(FileHandler.getFile());
-        TextArrayManager.manageArray(reportsTable, textArray);
+        tableManager = new TextArrayManager(reportsTable, textArray);
+        tableManager.setHeaders();
+        tableManager.setTableItems();
+        setTableItems();
+    }
+
+    @FXML
+    private void acceptedRejectedAction(ActionEvent event) {
+        if(buttonState.equals(ButtonTypes.accepted)) {
+            buttonState = ButtonTypes.rejected;
+            acceptedRejectedTextField.setText("Rejected");
+        } else {
+            buttonState = ButtonTypes.accepted;
+            acceptedRejectedTextField.setText("Accepted");
+        }
+        setTableItems();
     }
     
+    private void setTableItems() {
+        if(buttonState.equals(ButtonTypes.accepted)) {
+            tableManager.setAccepted();
+        } else {
+            tableManager.setRejected();
+        }
+    }
+    
+    private enum ButtonTypes{accepted, rejected}
     
 }
