@@ -13,7 +13,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.TextFlow;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
 
@@ -28,16 +31,18 @@ public class GuiController implements Initializable {
     private Button selectCSVButton;
     @FXML
     private TableView<ObservableList<String>> reportsTable;
-@FXML
-    private Button fracationsButtons;
     @FXML
     private TextField acceptedRejectedTextField;
-    
+    @FXML
+    private TextArea footnoteText;
+    @FXML
+    private Button fractionsButtons;
+
     private String[][] textArray;
     private TextArrayManager tableManager;
     private String tableStyle;
     private ButtonTypes buttonState;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -55,11 +60,12 @@ public class GuiController implements Initializable {
         tableManager.setHeaders();
         tableManager.setTableItems();
         setTableItems();
+        FootnoteManager.setUpFootnotes(footnoteText, textArray);
     }
 
     @FXML
     private void acceptedRejectedAction(ActionEvent event) {
-        if(buttonState.equals(ButtonTypes.accepted)) {
+        if (buttonState.equals(ButtonTypes.accepted)) {
             buttonState = ButtonTypes.rejected;
             acceptedRejectedTextField.setText("Rejected");
         } else {
@@ -68,15 +74,17 @@ public class GuiController implements Initializable {
         }
         setTableItems();
     }
-    
+
     private void setTableItems() {
-        if(buttonState.equals(ButtonTypes.accepted)) {
+        if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
         } else {
             tableManager.setRejected();
         }
     }
-    
-    private enum ButtonTypes{accepted, rejected}
-    
+
+    private enum ButtonTypes {
+        accepted, rejected
+    }
+
 }
