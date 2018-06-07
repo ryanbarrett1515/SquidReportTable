@@ -70,7 +70,7 @@ public class StringComparer implements Comparator<String> {
         boolean retVal = true;
         char[] sequence = s.toCharArray();
         int periodCount = 0;
-        if(sequence.length > 0 && sequence[0] == '-') {
+        if(sequence.length > 0 && sequence[0] == '-' && sequence.length > 1) {
             sequence[0] = '0';
         }
         for (int i = 0; i < sequence.length && retVal; i++) {
