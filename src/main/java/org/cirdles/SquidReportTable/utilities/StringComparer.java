@@ -15,6 +15,8 @@ public class StringComparer implements Comparator<String> {
 
     @Override
     public int compare(String s1, String s2) {
+        s1 = s1.replaceAll(" ", "");
+        s2 = s2.replaceAll(" ", "");
         int retVal = 0;
         boolean done = false;
         int length;
@@ -39,8 +41,6 @@ public class StringComparer implements Comparator<String> {
             }
             if (!done && !s1notLongEnough && !s2notLongEnough) {
                 if (isNumber(s1.substring(i)) && isNumber(s2.substring(i))) {
-                    s1 = s1.replaceAll(" ", "");
-                    s2 = s2.replaceAll(" ", "");
                     Double arithmetic = Double.parseDouble(s1.substring(i)) - Double.parseDouble(s2.substring(i));
                     if (arithmetic < 0) {
                         retVal = -1;
@@ -70,11 +70,11 @@ public class StringComparer implements Comparator<String> {
         boolean retVal = true;
         char[] sequence = s.toCharArray();
         int periodCount = 0;
-        if(sequence.length > 0 && sequence[0] == '-' && sequence.length > 1) {
+        if (sequence.length > 0 && sequence[0] == '-' && sequence.length > 1) {
             sequence[0] = '0';
         }
         for (int i = 0; i < sequence.length && retVal; i++) {
-            if (!Character.isDigit(sequence[i]) && sequence[i] != ' ' && !(sequence[i] == '.')) {
+            if (!Character.isDigit(sequence[i]) && !(sequence[i] == '.')) {
                 retVal = false;
             }
             if (sequence[i] == '.') {

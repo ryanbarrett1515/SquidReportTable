@@ -31,6 +31,7 @@ public class TextArrayManager {
     }
 
     public void setHeaders() {
+        table.getColumns().clear();
         TableColumn<ObservableList<String>, String> header = new TableColumn<>("");
         for (int i = 2; i < array[0].length - 1; i++) {
             if (!array[0][i - 1].equals(array[0][i])) {
@@ -39,6 +40,7 @@ public class TextArrayManager {
             String colName = getColumnName(i, array);
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(colName.trim());
             col.setComparator(new StringComparer());
+            col.setPrefWidth(col.getPrefWidth() + 10);
             final int colNum = i - 2;
             col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colNum)));
             header.getColumns().add(col);
@@ -49,34 +51,30 @@ public class TextArrayManager {
     }
 
     public String getColumnName(int col, String[][] textArray) {
-        return textArray[1][col] + textArray[2][col] + textArray[3][col];
+        return textArray[1][col] + "\n" + textArray[2][col] + "\n" + textArray[3][col];
     }
 
     public void setTableItems() {
-        table.setItems(FXCollections.observableArrayList());
+        accepted.clear();
+        rejected.clear();
         int startSpot = Integer.parseInt(array[0][0]);
-        
         for (int i = startSpot; i < array.length; i++) {
+            ObservableList<String> data = FXCollections.observableArrayList();
+            for (int j = 2; j < array[0].length - 1; j++) {
+                data.add(array[i][j].trim());
+            }
             if (Boolean.parseBoolean(array[i][0])) {
-                ObservableList<String> data = FXCollections.observableArrayList();
-                for (int j = 2; j < array[0].length - 1; j++) {
-                    data.add(array[i][j].trim());
-                }
                 accepted.add(data);
             } else {
-                ObservableList<String> data = FXCollections.observableArrayList();
-                for (int j = 2; j < array[0].length - 1; j++) {
-                    data.add(array[i][j].trim());
-                }
                 rejected.add(data);
             }
         }
     }
-    
+
     public void setAccepted() {
         table.setItems(accepted);
     }
-    
+
     public void setRejected() {
         table.setItems(rejected);
     }
