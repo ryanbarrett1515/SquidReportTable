@@ -40,8 +40,10 @@ public class TextArrayManager {
             String colName = getColumnName(i, array);
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(colName.trim());
             col.setComparator(new StringComparer());
-            col.setPrefWidth(col.getPrefWidth() + 10);
+            col.setPrefWidth(col.getPrefWidth() + 20);
             final int colNum = i - 2;
+                col.setStyle("-fx-font-family: \"Courier New\";" + 
+                        "\n -fx-font-size: 15");
             col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colNum)));
             header.getColumns().add(col);
             if (!array[0][i].equals(array[0][i + 1])) {

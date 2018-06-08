@@ -74,7 +74,7 @@ public class StringComparer implements Comparator<String> {
             sequence[0] = '0';
         }
         for (int i = 0; i < sequence.length && retVal; i++) {
-            if (!Character.isDigit(sequence[i]) && !(sequence[i] == '.')) {
+            if (!Character.isDigit(sequence[i]) && sequence[i] != '.') {
                 retVal = false;
             }
             if (sequence[i] == '.') {

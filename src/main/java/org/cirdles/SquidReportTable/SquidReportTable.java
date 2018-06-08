@@ -32,7 +32,7 @@ public class SquidReportTable extends Application {
         Parent root = new AnchorPane();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Squid Report Table");
+        primaryStage.setTitle("Squid Report Table"); 
 
         primaryStageWindow = primaryStage.getScene().getWindow();
 
@@ -41,12 +41,13 @@ public class SquidReportTable extends Application {
             System.exit(0);
         });
 
-        scene.setRoot(FXMLLoader.load(getClass().getResource("SquidReportTableGUI.fxml")));
+        scene.setRoot(FXMLLoader.load(getClass().getResource("SquidReportTableGUI.fxml")));      
         primaryStage.show();
         primaryStage.setMinHeight(scene.getHeight());
         primaryStage.setMinWidth(scene.getWidth());
         primaryStage.setHeight(scene.getHeight() + 200);
         primaryStage.setWidth(scene.getWidth() + 100);
+//        Application.setUserAgentStylesheet(getClass().getResource("SquidReportTable.css").toExternalForm());      
     }
 
     /**
