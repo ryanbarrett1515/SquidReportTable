@@ -48,6 +48,7 @@ public class SquidReportTable extends Application {
         primaryStage.setHeight(scene.getHeight() + 200);
         primaryStage.setWidth(scene.getWidth() + 100);
 //        Application.setUserAgentStylesheet(getClass().getResource("SquidReportTable.css").toExternalForm());      
+//        scene.getStylesheets().add(getClass().getResource("SquidReportTable.css").toExternalForm());
     }
 
     /**

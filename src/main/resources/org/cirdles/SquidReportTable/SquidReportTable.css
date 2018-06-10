@@ -8,9 +8,9 @@ and open the template in the editor.
     Author     : ryanb
 */
 .button {
-    -fx-background-color: #ff3333;
-    -fx-text-fill: white;   
-    -fx-font-size: 17;
+    -fx-background-color: orange;
+               -fx-font-family: "Times New Roman";
+                -fx-font-size: 18
 }
 .root{
     -fx-background-color: #cccccc;
@@ -24,7 +24,6 @@ and open the template in the editor.
     -fx-background-color: #3333ff;
 }
 .table-view .column-header-background .label{
-    -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 18;
 
@@ -41,10 +40,12 @@ and open the template in the editor.
     -fx-background-color:#6666ff
 }
 .text-area {
+    -fx-background-color:#cccccc;
     -fx-font-family: "Times New Roman";
     -fx-font-size: 17
 }
 .text-field {
+    -fx-background-color:#cccccc;
     -fx-font-family: "Times New Roman";
     -fx-font-size: 17
 }
