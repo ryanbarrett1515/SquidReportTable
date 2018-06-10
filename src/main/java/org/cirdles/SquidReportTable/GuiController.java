@@ -17,9 +17,6 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
 
@@ -89,7 +86,6 @@ public class GuiController implements Initializable {
     }
 
     private void setTableItems() {
-
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
             scroller.setMax(tableManager.getAccepted().size());
@@ -98,20 +94,13 @@ public class GuiController implements Initializable {
             scroller.setMax(tableManager.getRejected().size());
         }
     }
-    
+
     private void setUpScroller() {
-//        scroller.valueProperty().addListener( new ChangeListener() {
-//            @Override
-//            public void stateChanged(ChangeEvent e) {
-//                boundCol.scrollTo((int) scroller.getValue());
-//                reportsTable.scrollTo((int) scroller.getValue());
-//            }
-//        });
         scroller.addEventFilter(MouseEvent.ANY, event -> {
             boundCol.scrollTo((int) scroller.getValue());
             reportsTable.scrollTo((int) scroller.getValue());
         }
-                );
+        );
     }
 
     private void setStyles() {
