@@ -24,6 +24,7 @@ public class TextArrayManager {
     private ObservableList<ObservableList<String>> accepted;
     private ObservableList<ObservableList<String>> rejected;
     private String colStyle;
+    private int characterSize;
 
     public TextArrayManager(TableView<ObservableList<String>> boundCol, TableView<ObservableList<String>> table, String[][] array) {
         this.boundCol = boundCol;
@@ -33,6 +34,7 @@ public class TextArrayManager {
         rejected = FXCollections.observableArrayList();
         colStyle = "-fx-font-family: \"Courier New\";"
                 + "\n -fx-font-size: 18";
+        characterSize = 13;
     }
 
     public void setHeaders() {
@@ -127,7 +129,7 @@ public class TextArrayManager {
                     counter = 0;
                 }
                 Object col = table.getColumns().get(header).getColumns().get(counter);
-                double prefWidth = max * 13;
+                double prefWidth = max * characterSize;
                 if (prefWidth > ((TableColumn) col).getPrefWidth()) {
                     ((TableColumn) col).setPrefWidth(prefWidth);
                 }

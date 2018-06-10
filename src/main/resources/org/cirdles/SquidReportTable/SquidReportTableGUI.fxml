@@ -9,7 +9,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cirdles.SquidReportTable.GuiController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="root" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <Button fx:id="selectCSVButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectCSVButton" prefHeight="27.0" prefWidth="281.0" text="Select CSV File" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
             <TableView fx:id="reportsTable" layoutX="173.0" layoutY="47.0" prefHeight="300.0" prefWidth="672.0" AnchorPane.bottomAnchor="252.0" AnchorPane.leftAnchor="173.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="47.0" />

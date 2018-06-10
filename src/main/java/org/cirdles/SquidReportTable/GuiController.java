@@ -17,6 +17,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
 
@@ -38,11 +39,14 @@ public class GuiController implements Initializable {
     @FXML
     private TextArea footnoteText;
     @FXML
-    private Button fractionsButtons;
+    private Button fractionsButtons; 
+    @FXML
+    private AnchorPane root;
 
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
+   
 
     private enum ButtonTypes {
         accepted, rejected
@@ -88,10 +92,10 @@ public class GuiController implements Initializable {
     private void setTableItems() {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
-            scroller.setMax(tableManager.getAccepted().size());
+            scroller.setMax(tableManager.getAccepted().size() * (2.3/3));
         } else {
             tableManager.setRejected();
-            scroller.setMax(tableManager.getRejected().size());
+            scroller.setMax(tableManager.getRejected().size() * (2.3/3));
         }
     }
 
@@ -104,21 +108,16 @@ public class GuiController implements Initializable {
     }
 
     private void setStyles() {
-        reportsTable.setStyle(".table-view {"
+        String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
-                + "-fx-font-size: 20;}"
+                + "-fx-font-size: 20;"
+                + "-fx-background-style: orange;}"
                 + ".table-row-cell:odd {"
                 + "-fx-background-color: gray}"
                 + ".table-row-cell:even{"
-                + "-fx-background-color:blue}");
-
-        boundCol.setStyle(".table-view {"
-                + "-fx-font-family: \"Times New Roman\";"
-                + "-fx-font-size: 20;}"
-                + ".table-row-cell:odd {"
-                + "-fx-background-color: gray}"
-                + ".table-row-cell:even{"
-                + "-fx-background-color:blue}");
+                + "-fx-background-color:blue}";
+        reportsTable.setStyle(tableStyle);
+        boundCol.setStyle(tableStyle);
 
         fractionsButtons.setStyle("-fx-background-color: orange;"
                 + "-fx-font-family: \"Times New Roman\";"
@@ -127,6 +126,7 @@ public class GuiController implements Initializable {
         selectCSVButton.setStyle("-fx-background-color: orange;"
                 + "-fx-font-family: \"Times New Roman\";"
                 + "-fx-font-size: 18;");
+        root.setStyle("-fx-background-color: cadetblue");
     }
 
 }
