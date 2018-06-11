@@ -39,14 +39,13 @@ public class GuiController implements Initializable {
     @FXML
     private TextArea footnoteText;
     @FXML
-    private Button fractionsButtons; 
+    private Button fractionsButtons;
     @FXML
     private AnchorPane root;
 
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
-   
 
     private enum ButtonTypes {
         accepted, rejected
@@ -92,10 +91,10 @@ public class GuiController implements Initializable {
     private void setTableItems() {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
-            scroller.setMax(tableManager.getAccepted().size() * (2.3/3));
+            scroller.setMax(tableManager.getAccepted().size() * (2.3 / 3));
         } else {
             tableManager.setRejected();
-            scroller.setMax(tableManager.getRejected().size() * (2.3/3));
+            scroller.setMax(tableManager.getRejected().size() * (2.3 / 3));
         }
     }
 
@@ -110,12 +109,7 @@ public class GuiController implements Initializable {
     private void setStyles() {
         String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
-                + "-fx-font-size: 20;"
-                + "-fx-background-style: orange;}"
-                + ".table-row-cell:odd {"
-                + "-fx-background-color: gray}"
-                + ".table-row-cell:even{"
-                + "-fx-background-color:blue}";
+                + "-fx-font-size: 20;}";
         reportsTable.setStyle(tableStyle);
         boundCol.setStyle(tableStyle);
 
