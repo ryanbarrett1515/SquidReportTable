@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
 
+
+
 /**
  * FXML Controller class
  *
@@ -43,6 +45,10 @@ public class GuiController implements Initializable {
     @FXML
     private AnchorPane root;
 
+//    @FXML
+//    private ScrollBar reportsBar;
+//    @FXML
+//    private ScrollBar boundBar;
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
@@ -60,6 +66,8 @@ public class GuiController implements Initializable {
         selectCSVButton(new ActionEvent());
         footnoteText.setEditable(false);
         setStyles();
+//        reportsBar = (ScrollBar) reportsTable.lookup(".scroll-bar:vertical");
+//        boundBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
         setUpScroller();
     }
 
@@ -102,10 +110,77 @@ public class GuiController implements Initializable {
         scroller.addEventFilter(MouseEvent.ANY, event -> {
             boundCol.scrollTo((int) scroller.getValue());
             reportsTable.scrollTo((int) scroller.getValue());
-        }
-        );
+        });
+//        reportsTable.addEventFilter(ScrollEvent.SCROLL_STARTED, event ->{
+//        });
+//        getVerticalScrollbar(reportsTable).addEventFilter(MouseEvent.ANY, event -> {
+//            boundCol.scrollTo((int) scroller.getValue());
+//        });
+//        getVerticalScrollbar(boundCol).addEventFilter(MouseEvent.ANY, event -> {
+//            reportsTable.scrollTo((int) scroller.getValue());
+//        });
+
+//        reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
+//            boundCol.scrollTo((int) reportsBar.getValue());
+//        });
+//        boundCol.addEventFilter(ScrollEvent.ANY, event -> {
+//            reportsTable.scrollTo((int) boundBar.getValue());
+//        });
+//        reportsTable.
+//        ObservableList<Node> list = reportsTable.getChildrenUnmodifiable();
+//        for (int i = 0; i < list.size(); i++) {
+//            Node node = list.get(i);
+//            if (node instanceof VirtualFlow) {
+//                VirtualFlow flow = (VirtualFlow) reportsTable.getChildrenUnmodifiable().get(1);
+//                for (final Node subNode : flow.getChildrenUnmodifiable()) {
+//                    if (subNode instanceof ScrollBar && ((ScrollBar) subNode).getOrientation() == Orientation.VERTICAL) {
+//                        reportsBar = (ScrollBar) subNode;
+//                    }
+//                }
+//            }
+//        }
+//
+//         list = boundCol.getChildrenUnmodifiable();
+//        for (int i = 0; i < list.size(); i++) {
+//            Node node = list.get(i);
+//            if (node instanceof VirtualFlow) {
+//                VirtualFlow flow = (VirtualFlow) reportsTable.getChildrenUnmodifiable().get(1);
+//                for (final Node subNode : flow.getChildrenUnmodifiable()) {
+//                    if (subNode instanceof ScrollBar && ((ScrollBar) subNode).getOrientation() == Orientation.VERTICAL) {
+//                        boundBar = (ScrollBar) subNode;
+//                    }
+//                }
+//            }
+//        }
+//        scroller.valueProperty().bindBidirectional(boundBar.valueProperty());
+//        scroller.valueProperty().bindBidirectional(reportsBar.valueProperty());
+//        reportsTable.onScrollToProperty().addListener(new ChangeListener< EventHandler<ScrollToEvent<Integer>>>() {
+//            @Override
+//            public void changed(ObservableValue<? extends EventHandler<ScrollToEvent<Integer>>> ob, EventHandler<ScrollToEvent<Integer>> ov, EventHandler<ScrollToEvent<Integer>> nv) {
+//            }
+//        });
+//        boundCol.onScrollToProperty().addListener(new ChangeListener< EventHandler<ScrollToEvent<Integer>>>() {
+//            @Override
+//            public void changed(ObservableValue<? extends EventHandler<ScrollToEvent<Integer>>> ob, EventHandler<ScrollToEvent<Integer>> ov, EventHandler<ScrollToEvent<Integer>> nv) {
+//
+//            }
+//        });
+//        boundCol.onScrollProperty().bindBidirectional(reportsTable.onScrollProperty());
+//        reportsTable.onScrollProperty().bindBidirectional(boundCol.onScrollProperty());
     }
 
+//    public static ScrollBar getVerticalScrollbar(TableView<?> table) {
+//        ScrollBar result = null;
+//        for (Node n : table.lookupAll(".scroll-bar")) {
+//            if (n instanceof ScrollBar) {
+//                ScrollBar bar = (ScrollBar) n;
+//                if (bar.getOrientation().equals(Orientation.VERTICAL)) {
+//                    result = bar;
+//                }
+//            }
+//        }
+//        return result;
+//    }
     private void setStyles() {
         String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
