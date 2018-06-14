@@ -17,11 +17,10 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
-
-
 
 /**
  * FXML Controller class
@@ -39,6 +38,8 @@ public class GuiController implements Initializable {
     @FXML
     private ScrollBar scroller;
     @FXML
+    private ScrollBar horizontalScroller;
+    @FXML
     private TextArea footnoteText;
     @FXML
     private Button fractionsButtons;
@@ -52,6 +53,7 @@ public class GuiController implements Initializable {
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
+    private double scrollTotal;
 
     private enum ButtonTypes {
         accepted, rejected
@@ -65,10 +67,12 @@ public class GuiController implements Initializable {
         buttonState = ButtonTypes.accepted;
         selectCSVButton(new ActionEvent());
         footnoteText.setEditable(false);
-        setStyles();
 //        reportsBar = (ScrollBar) reportsTable.lookup(".scroll-bar:vertical");
 //        boundBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
+        scrollTotal = 0;
         setUpScroller();
+        setStyles();
+
     }
 
     @FXML
@@ -107,10 +111,45 @@ public class GuiController implements Initializable {
     }
 
     private void setUpScroller() {
-        scroller.addEventFilter(MouseEvent.ANY, event -> {
+        scroller.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
             boundCol.scrollTo((int) scroller.getValue());
             reportsTable.scrollTo((int) scroller.getValue());
         });
+        scroller.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            boundCol.scrollTo((int) scroller.getValue());
+            reportsTable.scrollTo((int) scroller.getValue());
+        });
+
+        reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
+            double amount = event.getDeltaY() * -.25;
+            if (amount > scroller.getMax()) {
+                amount = scroller.getMax();
+            }
+            if (amount < scroller.getMin()) {
+                amount = scroller.getMin();
+            }
+            scroller.setValue(scroller.getValue() + amount);
+            boundCol.scrollTo((int) (scroller.getValue() + .5));
+            reportsTable.scrollTo((int) (scroller.getValue() + .5));
+        });
+
+//        reportsTable.setOnScroll(event -> {
+//            scrollTotal += event.getDeltaY();
+//            boundCol.scrollTo((int) scrollTotal);
+//            scroller.adjustValue(scrollTotal);
+//        });
+//        ObservableList<TableColumn<ObservableList<String>, ?>> list = reportsTable.getColumns();
+//        ObservableList<TableColumn<ObservableList<String>, ?>> allCols = FXCollections.observableArrayList();
+//        double size = 0;
+//        for (TableColumn<ObservableList<String>, ?> col : list) {
+//            size += col.getWidth();
+//            allCols.addAll(col.getColumns());
+//        }
+//        horizontalScroller.setMax(allCols.size());
+//        horizontalScroller.addEventFilter(MouseEvent.ANY, event -> {
+//            boundCol.scrollToColumnIndex((int) horizontalScroller.getValue());
+//            reportsTable.scrollToColumnIndex((int) horizontalScroller.getValue());
+//        });
 //        reportsTable.addEventFilter(ScrollEvent.SCROLL_STARTED, event ->{
 //        });
 //        getVerticalScrollbar(reportsTable).addEventFilter(MouseEvent.ANY, event -> {
@@ -119,7 +158,6 @@ public class GuiController implements Initializable {
 //        getVerticalScrollbar(boundCol).addEventFilter(MouseEvent.ANY, event -> {
 //            reportsTable.scrollTo((int) scroller.getValue());
 //        });
-
 //        reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
 //            boundCol.scrollTo((int) reportsBar.getValue());
 //        });
@@ -167,6 +205,8 @@ public class GuiController implements Initializable {
 //        });
 //        boundCol.onScrollProperty().bindBidirectional(reportsTable.onScrollProperty());
 //        reportsTable.onScrollProperty().bindBidirectional(boundCol.onScrollProperty());
+//reportsTable.onScrollToProperty().bindBidirectional(boundCol.onScrollToProperty());
+//boundCol.onScrollToProperty().bindBidirectional(reportsTable.onScrollToProperty());
     }
 
 //    public static ScrollBar getVerticalScrollbar(TableView<?> table) {
