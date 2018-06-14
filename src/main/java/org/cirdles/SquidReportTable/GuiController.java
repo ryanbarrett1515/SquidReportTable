@@ -135,7 +135,7 @@ public class GuiController implements Initializable {
             reportsTable.scrollTo((int) (amount + .5));
         });
         boundCol.addEventFilter(ScrollEvent.ANY, event -> {
-            double amount = event.getDeltaY() * -.25 + scroller.getValue();
+            double amount = event.getDeltaY() * -.10 + scroller.getValue();
 
             if (amount > scroller.getMax()) {
                 amount = scroller.getMax();
@@ -169,7 +169,7 @@ public class GuiController implements Initializable {
     
     private void setUpColFootnote() {
         boundColFootNote.setText(textArray[8][1].trim());
-        boundColFootNote.setStyle("-fx-font-size: 18");
+        boundColFootNote.setStyle("-fx-font-size: 18; -fx-background-color: orange");
     }
 
 }
