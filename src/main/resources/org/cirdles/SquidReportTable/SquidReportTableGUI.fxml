@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -16,13 +17,13 @@
             <TableView fx:id="reportsTable" layoutX="173.0" layoutY="47.0" prefHeight="300.0" prefWidth="672.0" stylesheets="@tableviewverticalscrollhider.css" AnchorPane.bottomAnchor="252.0" AnchorPane.leftAnchor="173.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="47.0" />
             <Button fx:id="fractionsButtons" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#acceptedRejectedAction" prefHeight="26.0" prefWidth="258.0" text="Accepted/Rejected Fractions" textAlignment="CENTER" />
             <TextArea fx:id="footnoteText" layoutX="14.0" layoutY="347.0" prefHeight="171.0" prefWidth="846.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="40.0" />
-            <TableView fx:id="boundCol" layoutX="14.0" layoutY="47.0" prefHeight="301.0" prefWidth="160.0" AnchorPane.bottomAnchor="252.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="47.0">
+            <TableView fx:id="boundCol" layoutX="14.0" layoutY="47.0" prefHeight="278.0" prefWidth="160.0" AnchorPane.bottomAnchor="275.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="47.0">
                <stylesheets>
                   <URL value="@tableviewhorizontalscrollhider.css" />
                   <URL value="@tableviewverticalscrollhider.css" />
                </stylesheets></TableView>
             <ScrollBar fx:id="scroller" layoutX="845.0" layoutY="47.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.bottomAnchor="252.20000000000005" AnchorPane.rightAnchor="40.6" AnchorPane.topAnchor="47.0" />
-            <ScrollBar fx:id="horizontalScroller" layoutX="14.0" layoutY="349.0" prefHeight="14.0" prefWidth="846.0" AnchorPane.bottomAnchor="237.39999999999995" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="39.60000000000002" />
+            <TextField fx:id="boundColFootNote" layoutX="14.0" layoutY="326.0" prefHeight="0.0" prefWidth="160.0" AnchorPane.bottomAnchor="252.0" AnchorPane.leftAnchor="14.0" />
       </children>
     </AnchorPane>
   </children>

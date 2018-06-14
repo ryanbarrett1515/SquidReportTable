@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -38,14 +39,14 @@ public class GuiController implements Initializable {
     @FXML
     private ScrollBar scroller;
     @FXML
-    private ScrollBar horizontalScroller;
-    @FXML
     private TextArea footnoteText;
     @FXML
     private Button fractionsButtons;
     @FXML
     private AnchorPane root;
-
+    @FXML
+    private TextField boundColFootNote;
+    
 //    @FXML
 //    private ScrollBar reportsBar;
 //    @FXML
@@ -53,7 +54,6 @@ public class GuiController implements Initializable {
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
-    private double scrollTotal;
 
     private enum ButtonTypes {
         accepted, rejected
@@ -69,7 +69,6 @@ public class GuiController implements Initializable {
         footnoteText.setEditable(false);
 //        reportsBar = (ScrollBar) reportsTable.lookup(".scroll-bar:vertical");
 //        boundBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
-        scrollTotal = 0;
         setUpScroller();
         setStyles();
 
@@ -85,6 +84,7 @@ public class GuiController implements Initializable {
             tableManager.setTableItems();
             setTableItems();
             FootnoteManager.setUpFootnotes(footnoteText, textArray);
+            setUpColFootnote();
         }
     }
 
@@ -121,106 +121,35 @@ public class GuiController implements Initializable {
         });
 
         reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
-            double amount = event.getDeltaY() * -.25;
+            double amount = event.getDeltaY() * -.25 + scroller.getValue();
+
             if (amount > scroller.getMax()) {
                 amount = scroller.getMax();
             }
             if (amount < scroller.getMin()) {
                 amount = scroller.getMin();
             }
-            scroller.setValue(scroller.getValue() + amount);
-            boundCol.scrollTo((int) (scroller.getValue() + .5));
-            reportsTable.scrollTo((int) (scroller.getValue() + .5));
+            
+            scroller.setValue(amount);
+            boundCol.scrollTo((int) (amount + .5));
+            reportsTable.scrollTo((int) (amount + .5));
         });
+        boundCol.addEventFilter(ScrollEvent.ANY, event -> {
+            double amount = event.getDeltaY() * -.25 + scroller.getValue();
 
-//        reportsTable.setOnScroll(event -> {
-//            scrollTotal += event.getDeltaY();
-//            boundCol.scrollTo((int) scrollTotal);
-//            scroller.adjustValue(scrollTotal);
-//        });
-//        ObservableList<TableColumn<ObservableList<String>, ?>> list = reportsTable.getColumns();
-//        ObservableList<TableColumn<ObservableList<String>, ?>> allCols = FXCollections.observableArrayList();
-//        double size = 0;
-//        for (TableColumn<ObservableList<String>, ?> col : list) {
-//            size += col.getWidth();
-//            allCols.addAll(col.getColumns());
-//        }
-//        horizontalScroller.setMax(allCols.size());
-//        horizontalScroller.addEventFilter(MouseEvent.ANY, event -> {
-//            boundCol.scrollToColumnIndex((int) horizontalScroller.getValue());
-//            reportsTable.scrollToColumnIndex((int) horizontalScroller.getValue());
-//        });
-//        reportsTable.addEventFilter(ScrollEvent.SCROLL_STARTED, event ->{
-//        });
-//        getVerticalScrollbar(reportsTable).addEventFilter(MouseEvent.ANY, event -> {
-//            boundCol.scrollTo((int) scroller.getValue());
-//        });
-//        getVerticalScrollbar(boundCol).addEventFilter(MouseEvent.ANY, event -> {
-//            reportsTable.scrollTo((int) scroller.getValue());
-//        });
-//        reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
-//            boundCol.scrollTo((int) reportsBar.getValue());
-//        });
-//        boundCol.addEventFilter(ScrollEvent.ANY, event -> {
-//            reportsTable.scrollTo((int) boundBar.getValue());
-//        });
-//        reportsTable.
-//        ObservableList<Node> list = reportsTable.getChildrenUnmodifiable();
-//        for (int i = 0; i < list.size(); i++) {
-//            Node node = list.get(i);
-//            if (node instanceof VirtualFlow) {
-//                VirtualFlow flow = (VirtualFlow) reportsTable.getChildrenUnmodifiable().get(1);
-//                for (final Node subNode : flow.getChildrenUnmodifiable()) {
-//                    if (subNode instanceof ScrollBar && ((ScrollBar) subNode).getOrientation() == Orientation.VERTICAL) {
-//                        reportsBar = (ScrollBar) subNode;
-//                    }
-//                }
-//            }
-//        }
-//
-//         list = boundCol.getChildrenUnmodifiable();
-//        for (int i = 0; i < list.size(); i++) {
-//            Node node = list.get(i);
-//            if (node instanceof VirtualFlow) {
-//                VirtualFlow flow = (VirtualFlow) reportsTable.getChildrenUnmodifiable().get(1);
-//                for (final Node subNode : flow.getChildrenUnmodifiable()) {
-//                    if (subNode instanceof ScrollBar && ((ScrollBar) subNode).getOrientation() == Orientation.VERTICAL) {
-//                        boundBar = (ScrollBar) subNode;
-//                    }
-//                }
-//            }
-//        }
-//        scroller.valueProperty().bindBidirectional(boundBar.valueProperty());
-//        scroller.valueProperty().bindBidirectional(reportsBar.valueProperty());
-//        reportsTable.onScrollToProperty().addListener(new ChangeListener< EventHandler<ScrollToEvent<Integer>>>() {
-//            @Override
-//            public void changed(ObservableValue<? extends EventHandler<ScrollToEvent<Integer>>> ob, EventHandler<ScrollToEvent<Integer>> ov, EventHandler<ScrollToEvent<Integer>> nv) {
-//            }
-//        });
-//        boundCol.onScrollToProperty().addListener(new ChangeListener< EventHandler<ScrollToEvent<Integer>>>() {
-//            @Override
-//            public void changed(ObservableValue<? extends EventHandler<ScrollToEvent<Integer>>> ob, EventHandler<ScrollToEvent<Integer>> ov, EventHandler<ScrollToEvent<Integer>> nv) {
-//
-//            }
-//        });
-//        boundCol.onScrollProperty().bindBidirectional(reportsTable.onScrollProperty());
-//        reportsTable.onScrollProperty().bindBidirectional(boundCol.onScrollProperty());
-//reportsTable.onScrollToProperty().bindBidirectional(boundCol.onScrollToProperty());
-//boundCol.onScrollToProperty().bindBidirectional(reportsTable.onScrollToProperty());
+            if (amount > scroller.getMax()) {
+                amount = scroller.getMax();
+            }
+            if (amount < scroller.getMin()) {
+                amount = scroller.getMin();
+            }
+            
+            scroller.setValue(amount);
+            boundCol.scrollTo((int) (amount + .5));
+            reportsTable.scrollTo((int) (amount + .5));
+        });
     }
 
-//    public static ScrollBar getVerticalScrollbar(TableView<?> table) {
-//        ScrollBar result = null;
-//        for (Node n : table.lookupAll(".scroll-bar")) {
-//            if (n instanceof ScrollBar) {
-//                ScrollBar bar = (ScrollBar) n;
-//                if (bar.getOrientation().equals(Orientation.VERTICAL)) {
-//                    result = bar;
-//                }
-//            }
-//        }
-//        return result;
-//    }
     private void setStyles() {
         String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
@@ -236,6 +165,11 @@ public class GuiController implements Initializable {
                 + "-fx-font-family: \"Times New Roman\";"
                 + "-fx-font-size: 18;");
         root.setStyle("-fx-background-color: cadetblue");
+    }
+    
+    private void setUpColFootnote() {
+        boundColFootNote.setText(textArray[8][1].trim());
+        boundColFootNote.setStyle("-fx-font-size: 18");
     }
 
 }
