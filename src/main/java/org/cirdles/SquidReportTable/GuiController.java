@@ -8,15 +8,17 @@ package org.cirdles.SquidReportTable;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -45,15 +47,12 @@ public class GuiController implements Initializable {
     @FXML
     private AnchorPane root;
     @FXML
-    private TextField boundColFootNote;
-    
-//    @FXML
-//    private ScrollBar reportsBar;
-//    @FXML
-//    private ScrollBar boundBar;
+    private Label label;
+
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
+    private boolean resized;
 
     private enum ButtonTypes {
         accepted, rejected
@@ -67,11 +66,9 @@ public class GuiController implements Initializable {
         buttonState = ButtonTypes.accepted;
         selectCSVButton(new ActionEvent());
         footnoteText.setEditable(false);
-//        reportsBar = (ScrollBar) reportsTable.lookup(".scroll-bar:vertical");
-//        boundBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
+        resized = false;
         setUpScroller();
         setStyles();
-
     }
 
     @FXML
@@ -103,10 +100,10 @@ public class GuiController implements Initializable {
     private void setTableItems() {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
-            scroller.setMax(tableManager.getAccepted().size() * (2.3 / 3));
+            scroller.setMax(tableManager.getAccepted().size() * (3.1 / 4));
         } else {
             tableManager.setRejected();
-            scroller.setMax(tableManager.getRejected().size() * (2.3 / 3));
+            scroller.setMax(tableManager.getRejected().size() * (3.1 / 4));
         }
     }
 
@@ -121,7 +118,7 @@ public class GuiController implements Initializable {
         });
 
         reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
-            double amount = event.getDeltaY() * -.25 + scroller.getValue();
+            double amount = event.getDeltaY() * -.15 + scroller.getValue();
 
             if (amount > scroller.getMax()) {
                 amount = scroller.getMax();
@@ -129,13 +126,14 @@ public class GuiController implements Initializable {
             if (amount < scroller.getMin()) {
                 amount = scroller.getMin();
             }
-            
+
             scroller.setValue(amount);
             boundCol.scrollTo((int) (amount + .5));
             reportsTable.scrollTo((int) (amount + .5));
         });
+
         boundCol.addEventFilter(ScrollEvent.ANY, event -> {
-            double amount = event.getDeltaY() * -.10 + scroller.getValue();
+            double amount = event.getDeltaY() * -.15 + scroller.getValue();
 
             if (amount > scroller.getMax()) {
                 amount = scroller.getMax();
@@ -143,10 +141,19 @@ public class GuiController implements Initializable {
             if (amount < scroller.getMin()) {
                 amount = scroller.getMin();
             }
-            
+
             scroller.setValue(amount);
             boundCol.scrollTo((int) (amount + .5));
             reportsTable.scrollTo((int) (amount + .5));
+        });
+
+        reportsTable.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ob, Number oldVal, Number newVal) {
+                double height = newVal.doubleValue();
+                double heightDifference = height - 454;
+                scroller.setMax(31.5 + (heightDifference * -1 * .03));
+            }
         });
     }
 
@@ -156,20 +163,19 @@ public class GuiController implements Initializable {
                 + "-fx-font-size: 20;}";
         reportsTable.setStyle(tableStyle);
         boundCol.setStyle(tableStyle);
-
         fractionsButtons.setStyle("-fx-background-color: orange;"
                 + "-fx-font-family: \"Times New Roman\";"
                 + "-fx-font-size: 18;");
-
         selectCSVButton.setStyle("-fx-background-color: orange;"
                 + "-fx-font-family: \"Times New Roman\";"
                 + "-fx-font-size: 18;");
         root.setStyle("-fx-background-color: cadetblue");
+        setUpColFootnote();
     }
-    
+
     private void setUpColFootnote() {
-        boundColFootNote.setText(textArray[8][1].trim());
-        boundColFootNote.setStyle("-fx-font-size: 18; -fx-background-color: orange");
+        label.setText(textArray[8][1].trim());
+        label.setStyle("-fx-font-size:17;-fx-background-color:orange;");
     }
 
 }
