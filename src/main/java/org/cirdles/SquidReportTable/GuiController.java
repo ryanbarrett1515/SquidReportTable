@@ -52,8 +52,7 @@ public class GuiController implements Initializable {
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
-    private boolean resized;
-
+    
     private enum ButtonTypes {
         accepted, rejected
     }
@@ -64,9 +63,10 @@ public class GuiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonState = ButtonTypes.accepted;
+        boundCol.setFixedCellSize(25);
+        reportsTable.setFixedCellSize(25);
         selectCSVButton(new ActionEvent());
         footnoteText.setEditable(false);
-        resized = false;
         setUpScroller();
         setStyles();
     }
@@ -100,10 +100,10 @@ public class GuiController implements Initializable {
     private void setTableItems() {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
-            scroller.setMax(tableManager.getAccepted().size() * (3.1 / 4));
+            scroller.setMax(tableManager.getAccepted().size() - (reportsTable.getHeight() - 150)/25);
         } else {
             tableManager.setRejected();
-            scroller.setMax(tableManager.getRejected().size() * (3.1 / 4));
+            scroller.setMax(tableManager.getRejected().size() - (reportsTable.getHeight() - 150)/25);
         }
     }
 
@@ -150,9 +150,13 @@ public class GuiController implements Initializable {
         reportsTable.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> ob, Number oldVal, Number newVal) {
-                double height = newVal.doubleValue();
-                double heightDifference = height - 454;
-                scroller.setMax(31.5 + (heightDifference * -1 * .03));
+                if(buttonState == ButtonTypes.accepted) {
+                    double amount = tableManager.getAccepted().size() - (newVal.doubleValue() - 150)/25;
+                    scroller.setMax(amount);
+                } else {
+                    double amount = tableManager.getRejected().size() - (newVal.doubleValue() - 150)/25;
+                    scroller.setMax(amount);
+                }
             }
         });
     }
