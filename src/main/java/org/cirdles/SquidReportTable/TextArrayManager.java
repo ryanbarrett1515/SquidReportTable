@@ -81,8 +81,9 @@ public class TextArrayManager {
     }
 
     private void setUpBoundCol() {
+        boundCol.getColumns().clear();
         TableColumn<ObservableList<String>, String> header = new TableColumn<>("Squid");
-        TableColumn<ObservableList<String>, String> col = new TableColumn<>("\n\nFractions");
+        TableColumn<ObservableList<String>, String> col = new TableColumn<>(getColumnName(2, array));
         col.setComparator(new StringComparer());
         col.setPrefWidth(col.getPrefWidth() + 76);
         col.setStyle(colStyle);

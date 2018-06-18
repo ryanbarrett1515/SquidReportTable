@@ -52,7 +52,7 @@ public class GuiController implements Initializable {
     private String[][] textArray;
     private TextArrayManager tableManager;
     private ButtonTypes buttonState;
-    
+
     private enum ButtonTypes {
         accepted, rejected
     }
@@ -100,10 +100,13 @@ public class GuiController implements Initializable {
     private void setTableItems() {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
-            scroller.setMax(tableManager.getAccepted().size() - (reportsTable.getHeight() - 150)/25);
+            scroller.setMax(tableManager.getAccepted().size() - (reportsTable.getHeight() - 150) / 25);
+            scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getAccepted().size());
         } else {
             tableManager.setRejected();
-            scroller.setMax(tableManager.getRejected().size() - (reportsTable.getHeight() - 150)/25);
+            scroller.setMax(tableManager.getRejected().size() - (reportsTable.getHeight() - 150) / 25);
+            scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getRejected().size());
+
         }
     }
 
@@ -150,11 +153,15 @@ public class GuiController implements Initializable {
         reportsTable.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> ob, Number oldVal, Number newVal) {
-                if(buttonState == ButtonTypes.accepted) {
-                    double amount = tableManager.getAccepted().size() - (newVal.doubleValue() - 150)/25;
+                if (buttonState == ButtonTypes.accepted) {
+                    double amount = tableManager.getAccepted().size() - (newVal.doubleValue() - 150) / 25;
+                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getAccepted().size());
+
                     scroller.setMax(amount);
                 } else {
-                    double amount = tableManager.getRejected().size() - (newVal.doubleValue() - 150)/25;
+                    double amount = tableManager.getRejected().size() - (newVal.doubleValue() - 150) / 25;
+                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getRejected().size());
+
                     scroller.setMax(amount);
                 }
             }
