@@ -24,7 +24,7 @@ public class TextArrayManager {
     private ObservableList<ObservableList<String>> accepted;
     private ObservableList<ObservableList<String>> rejected;
     private String colStyle;
-    private int characterSize;
+    private final int characterSize;
 
     public TextArrayManager(TableView<ObservableList<String>> boundCol, TableView<ObservableList<String>> table, String[][] array) {
         this.boundCol = boundCol;
@@ -60,7 +60,11 @@ public class TextArrayManager {
     }
 
     public String getColumnName(int col, String[][] textArray) {
-        return textArray[1][col] + "\n" + textArray[2][col] + "\n" + textArray[3][col];
+        String retVal = textArray[1][col] + "\n" + textArray[2][col] + "\n" + textArray[3][col];
+        
+        retVal = retVal.replaceAll("\\?", "σ");
+
+        return retVal;
     }
 
     public void setTableItems() {
@@ -92,14 +96,6 @@ public class TextArrayManager {
         header.getColumns().add(col);
         header.setPrefWidth(header.getMaxWidth());
         boundCol.getColumns().add(header);
-    }
-
-    public TableView<ObservableList<String>> getBoundCol() {
-        return boundCol;
-    }
-
-    public void setBoundCol(TableView<ObservableList<String>> boundCol) {
-        this.boundCol = boundCol;
     }
 
     public void setAccepted() {
@@ -137,6 +133,14 @@ public class TextArrayManager {
                 counter++;
             }
         }
+    }
+
+    public TableView<ObservableList<String>> getBoundCol() {
+        return boundCol;
+    }
+
+    public void setBoundCol(TableView<ObservableList<String>> boundCol) {
+        this.boundCol = boundCol;
     }
 
     public TableView<ObservableList<String>> getTable() {

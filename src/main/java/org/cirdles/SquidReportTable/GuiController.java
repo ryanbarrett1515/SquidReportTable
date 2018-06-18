@@ -155,14 +155,12 @@ public class GuiController implements Initializable {
             public void changed(ObservableValue<? extends Number> ob, Number oldVal, Number newVal) {
                 if (buttonState == ButtonTypes.accepted) {
                     double amount = tableManager.getAccepted().size() - (newVal.doubleValue() - 150) / 25;
-                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getAccepted().size());
-
                     scroller.setMax(amount);
+                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getAccepted().size());
                 } else {
                     double amount = tableManager.getRejected().size() - (newVal.doubleValue() - 150) / 25;
-                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getRejected().size());
-
                     scroller.setMax(amount);
+                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getRejected().size());
                 }
             }
         });
