@@ -101,11 +101,11 @@ public class GuiController implements Initializable {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
             scroller.setMax(tableManager.getAccepted().size() - (reportsTable.getHeight() - 150) / 25);
-            scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getAccepted().size());
+            scroller.setVisibleAmount(getVisibleAmount());
         } else {
             tableManager.setRejected();
             scroller.setMax(tableManager.getRejected().size() - (reportsTable.getHeight() - 150) / 25);
-            scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getRejected().size());
+            scroller.setVisibleAmount(getVisibleAmount());
 
         }
     }
@@ -156,11 +156,11 @@ public class GuiController implements Initializable {
                 if (buttonState == ButtonTypes.accepted) {
                     double amount = tableManager.getAccepted().size() - (newVal.doubleValue() - 150) / 25;
                     scroller.setMax(amount);
-                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getAccepted().size());
+                    scroller.setVisibleAmount(getVisibleAmount());
                 } else {
                     double amount = tableManager.getRejected().size() - (newVal.doubleValue() - 150) / 25;
                     scroller.setMax(amount);
-                    scroller.setVisibleAmount(100 * ((reportsTable.getHeight() - 150) / 25) / tableManager.getRejected().size());
+                    scroller.setVisibleAmount(getVisibleAmount());
                 }
             }
         });
@@ -187,4 +187,7 @@ public class GuiController implements Initializable {
         label.setStyle("-fx-font-size:17;-fx-background-color:orange;");
     }
 
+    private double getVisibleAmount() {
+        return ((scroller.getHeight()) / 25) / scroller.getMax();
+    }
 }
