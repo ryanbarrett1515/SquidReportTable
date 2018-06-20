@@ -5,6 +5,8 @@
  */
 package org.cirdles.SquidReportTable;
 
+import com.sun.javafx.scene.control.skin.TableViewSkin;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,8 +41,6 @@ public class GuiController implements Initializable {
     @FXML
     private TableView<ObservableList<String>> boundCol;
     @FXML
-    private ScrollBar scroller;
-    @FXML
     private TextArea footnoteText;
     @FXML
     private Button fractionsButtons;
@@ -65,9 +65,7 @@ public class GuiController implements Initializable {
         buttonState = ButtonTypes.accepted;
         boundCol.setFixedCellSize(25);
         reportsTable.setFixedCellSize(25);
-        selectCSVButton(new ActionEvent());
         footnoteText.setEditable(false);
-        setUpScroller();
         setStyles();
     }
 
@@ -82,6 +80,7 @@ public class GuiController implements Initializable {
             setTableItems();
             FootnoteManager.setUpFootnotes(footnoteText, textArray);
             setUpColFootnote();
+            setUpScroller();
         }
     }
 
@@ -95,75 +94,23 @@ public class GuiController implements Initializable {
             fractionsButtons.setText("Accepted");
         }
         setTableItems();
+        setUpScroller();
+
     }
 
     private void setTableItems() {
         if (buttonState.equals(ButtonTypes.accepted)) {
             tableManager.setAccepted();
-            scroller.setMax(tableManager.getAccepted().size() - (reportsTable.getHeight() - 150) / 25);
-            scroller.setVisibleAmount(getVisibleAmount());
         } else {
             tableManager.setRejected();
-            scroller.setMax(tableManager.getRejected().size() - (reportsTable.getHeight() - 150) / 25);
-            scroller.setVisibleAmount(getVisibleAmount());
-
         }
+        setUpColFootnote();
     }
 
     private void setUpScroller() {
-        scroller.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
-            boundCol.scrollTo((int) scroller.getValue());
-            reportsTable.scrollTo((int) scroller.getValue());
-        });
-        scroller.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-            boundCol.scrollTo((int) scroller.getValue());
-            reportsTable.scrollTo((int) scroller.getValue());
-        });
-
-        reportsTable.addEventFilter(ScrollEvent.ANY, event -> {
-            double amount = event.getDeltaY() * -.15 + scroller.getValue();
-
-            if (amount > scroller.getMax()) {
-                amount = scroller.getMax();
-            }
-            if (amount < scroller.getMin()) {
-                amount = scroller.getMin();
-            }
-
-            scroller.setValue(amount);
-            boundCol.scrollTo((int) (amount + .5));
-            reportsTable.scrollTo((int) (amount + .5));
-        });
-
-        boundCol.addEventFilter(ScrollEvent.ANY, event -> {
-            double amount = event.getDeltaY() * -.15 + scroller.getValue();
-
-            if (amount > scroller.getMax()) {
-                amount = scroller.getMax();
-            }
-            if (amount < scroller.getMin()) {
-                amount = scroller.getMin();
-            }
-
-            scroller.setValue(amount);
-            boundCol.scrollTo((int) (amount + .5));
-            reportsTable.scrollTo((int) (amount + .5));
-        });
-
-        reportsTable.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> ob, Number oldVal, Number newVal) {
-                if (buttonState == ButtonTypes.accepted) {
-                    double amount = tableManager.getAccepted().size() - (newVal.doubleValue() - 150) / 25;
-                    scroller.setMax(amount);
-                    scroller.setVisibleAmount(getVisibleAmount());
-                } else {
-                    double amount = tableManager.getRejected().size() - (newVal.doubleValue() - 150) / 25;
-                    scroller.setMax(amount);
-                    scroller.setVisibleAmount(getVisibleAmount());
-                }
-            }
-        });
+        ScrollBar rTBar = (ScrollBar) reportsTable.lookup(".scroll-bar:vertical");
+        ScrollBar bCBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
+        rTBar.valueProperty().bindBidirectional(bCBar.valueProperty());
     }
 
     private void setStyles() {
@@ -179,15 +126,10 @@ public class GuiController implements Initializable {
                 + "-fx-font-family: \"Times New Roman\";"
                 + "-fx-font-size: 18;");
         root.setStyle("-fx-background-color: cadetblue");
-        setUpColFootnote();
     }
 
     private void setUpColFootnote() {
         label.setText(textArray[8][1].trim());
         label.setStyle("-fx-font-size:17;-fx-background-color:orange;");
-    }
-
-    private double getVisibleAmount() {
-        return ((scroller.getHeight()) / 25) / scroller.getMax();
     }
 }
