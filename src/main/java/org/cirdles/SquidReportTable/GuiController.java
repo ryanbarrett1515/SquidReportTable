@@ -5,13 +5,9 @@
  */
 package org.cirdles.SquidReportTable;
 
-import com.sun.javafx.scene.control.skin.TableViewSkin;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import org.cirdles.SquidReportTable.utilities.CSVExtractor;
 import org.cirdles.SquidReportTable.utilities.FileHandler;
@@ -81,6 +75,7 @@ public class GuiController implements Initializable {
             FootnoteManager.setUpFootnotes(footnoteText, textArray);
             setUpColFootnote();
             setUpScroller();
+            setUpColFootnote();
         }
     }
 
@@ -94,8 +89,6 @@ public class GuiController implements Initializable {
             fractionsButtons.setText("Accepted");
         }
         setTableItems();
-        setUpScroller();
-
     }
 
     private void setTableItems() {
@@ -104,7 +97,6 @@ public class GuiController implements Initializable {
         } else {
             tableManager.setRejected();
         }
-        setUpColFootnote();
     }
 
     private void setUpScroller() {
