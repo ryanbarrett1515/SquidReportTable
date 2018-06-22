@@ -11,6 +11,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.cirdles.SquidReportTable.utilities.StringComparer;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -48,8 +51,8 @@ public class TextArrayManager {
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(colName.trim());
             col.setComparator(new StringComparer());
             col.setPrefWidth(col.getPrefWidth() + 20);
-            final int colNum = i - 2;
             col.setStyle(colStyle);
+            final int colNum = i - 2;
             col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colNum)));
             header.getColumns().add(col);
             if (!array[0][i].equals(array[0][i + 1])) {
@@ -59,11 +62,20 @@ public class TextArrayManager {
         setUpBoundCol();
     }
 
-    public String getColumnName(int col, String[][] textArray) {
-        String retVal = textArray[1][col] + "\n" + textArray[2][col] + "\n" + textArray[3][col];
-        
-        retVal = retVal.replaceAll("\\?", "σ");
+    public static String getColumnName(int col, String[][] textArray) {
+        String retVal = textArray[1][col] + "\n"
+                + textArray[2][col] + "\n" + textArray[3][col]
+                + getSuperscript(textArray[5][col]);
 
+        return retVal;
+    }
+
+    public static String getSuperscript(String value) {
+        String retVal = "";
+        if(value.length() > 0) {
+            value = "<sup>" + value + "</sup> ᵃˢᵈᶠˡ;ᵏʲ";
+            retVal = Jsoup.parse(value).text();
+        }
         return retVal;
     }
 
