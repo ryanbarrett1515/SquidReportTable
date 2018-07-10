@@ -121,7 +121,8 @@ public class GuiController implements Initializable {
     }
 
     private void setUpColFootnote() {
-        label.setText(textArray[8][1].trim());
+        int spot = Integer.parseInt(textArray[0][0]);
+        label.setText(textArray[spot][1].trim());
         label.setStyle("-fx-font-size:17;-fx-background-color:orange;");
     }
 }

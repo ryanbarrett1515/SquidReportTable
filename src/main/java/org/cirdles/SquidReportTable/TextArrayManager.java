@@ -8,12 +8,10 @@ package org.cirdles.SquidReportTable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.cirdles.SquidReportTable.utilities.StringComparer;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -63,19 +61,16 @@ public class TextArrayManager {
     }
 
     public static String getColumnName(int col, String[][] textArray) {
-        String retVal = textArray[1][col] + "\n"
-                + textArray[2][col] + "\n" + textArray[3][col]
-                + getSuperscript(textArray[5][col]);
-
-        return retVal;
-    }
-
-    public static String getSuperscript(String value) {
         String retVal = "";
-        if(value.length() > 0) {
-            value = "<sup>" + value + "</sup> ᵃˢᵈᶠˡ;ᵏʲ";
-            retVal = Jsoup.parse(value).text();
+        for (int i = 1; i <= 4; i++) {
+            String currVal = textArray[i][col].trim();
+            if (!currVal.equals("")) {
+                retVal += currVal;
+                if(i != 4)
+                    retVal += "\n";
+            }
         }
+
         return retVal;
     }
 
@@ -99,7 +94,7 @@ public class TextArrayManager {
     private void setUpBoundCol() {
         boundCol.getColumns().clear();
         TableColumn<ObservableList<String>, String> header = new TableColumn<>("Squid");
-        TableColumn<ObservableList<String>, String> col = new TableColumn<>(getColumnName(2, array));
+        TableColumn<ObservableList<String>, String> col = new TableColumn<>("\n\n\nFractions");
         col.setComparator(new StringComparer());
         col.setPrefWidth(col.getPrefWidth() + 76);
         col.setStyle(colStyle);
@@ -145,6 +140,8 @@ public class TextArrayManager {
                 counter++;
             }
         }
+        ScrollBar bar = (ScrollBar) table.lookup(".scroll-bar:horizontal");
+        bar.setVisible(true);
     }
 
     public TableView<ObservableList<String>> getBoundCol() {
