@@ -66,9 +66,14 @@ public class TextArrayManager {
             String currVal = textArray[i][col].trim();
             if (!currVal.equals("")) {
                 retVal += currVal;
-                if(i != 4)
+                if (i != 4) {
                     retVal += "\n";
+                }
             }
+        }
+        
+        if (retVal.trim().equals("Fractions") || retVal.trim().equals("Fraction")) {
+            retVal = "\n\n\nFractions";
         }
 
         return retVal;

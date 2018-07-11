@@ -14,7 +14,7 @@ import java.util.Scanner;
  * @author ryanb
  */
 public class CSVExtractor {
-    
+
     public static String[][] extractCSVFile(File fileName) {
         String fileString = "";
         try {
@@ -31,6 +31,18 @@ public class CSVExtractor {
         String[][] retVal = new String[fileRows.length][];
         for (int i = 0; i < fileRows.length; i++) {
             retVal[i] = fileRows[i].split(",");
+        }
+
+        boolean emptyLastRow = true;
+        for (int i = 0; i < retVal.length; i++) {
+            String[] newRow;
+            if (retVal[i][retVal[i].length - 1].trim().equals("")) {
+                newRow = new String[retVal[i].length - 1];
+                for (int j = 0; j < newRow.length; j++) {
+                    newRow[j] = retVal[i][j];
+                }
+                retVal[i] = newRow;
+            }
         }
 
         return retVal;

@@ -108,7 +108,7 @@ public class GuiController implements Initializable {
     private void setStyles() {
         String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
-                + "-fx-font-size: 20;}";
+                + "-fx-font-size: 19;}";
         reportsTable.setStyle(tableStyle);
         boundCol.setStyle(tableStyle);
         fractionsButtons.setStyle("-fx-background-color: orange;"
