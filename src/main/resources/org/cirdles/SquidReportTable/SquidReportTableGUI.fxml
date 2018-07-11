@@ -22,7 +22,7 @@
                         <URL value="@tableviewverticalscrollhider.css" />
                     </stylesheets>
                 </TableView>
-                <Label fx:id="label" alignment="CENTER" layoutX="348.0" layoutY="349.0" prefHeight="26.0" prefWidth="160.0" textAlignment="CENTER" AnchorPane.bottomAnchor="225.39999999999998" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+                <Label fx:id="label" alignment="CENTER" layoutX="348.0" layoutY="349.0" prefHeight="24.0" prefWidth="160.0" textAlignment="CENTER" AnchorPane.bottomAnchor="225.39999999999998" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
             </children>
         </AnchorPane>
     </children>

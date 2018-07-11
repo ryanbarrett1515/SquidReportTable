@@ -7,13 +7,17 @@ package org.cirdles.SquidReportTable;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
@@ -106,13 +110,33 @@ public class GuiController implements Initializable {
         ScrollBar bCBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
         rTBar.valueProperty().bindBidirectional(bCBar.valueProperty());
 
-        ScrollBar rtHbar = (ScrollBar) reportsTable.lookup(".scroll-bar:horizontal");
-        ScrollBar bHbar = (ScrollBar) boundCol.lookup(".scroll-bar:horizontal");
+        ScrollBar rtHbar = null;
+        Set<Node> bars = reportsTable.lookupAll(".scroll-bar");
+        Iterator<Node> iterator = bars.iterator();
+        while (rtHbar == null && iterator.hasNext()) {
+            ScrollBar curr = (ScrollBar) iterator.next();
+            if (curr.getOrientation() == Orientation.HORIZONTAL) {
+                rtHbar = curr;
+            }
+        }
+
+        label.setPrefHeight(24);                    
+        label.setPrefWidth(160);
+        rtHbar.setPrefHeight(24.0);
         rtHbar.visibleProperty().addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean aBoolean, final Boolean aBoolean2) {
-                if (rtHbar.isVisible()) {
-                    bHbar.setVisible(true);
+            public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean oldVal, final Boolean newVal) {
+                if (newVal) {
+                    AnchorPane.setBottomAnchor(boundCol, 276.0);
+                    AnchorPane.clearConstraints(label);
+                    AnchorPane.setBottomAnchor(label, 252.0);
+                    AnchorPane.setLeftAnchor(label, 14.0);
+
+                } else {
+                    AnchorPane.setBottomAnchor(boundCol, 252.0);
+                    AnchorPane.setBottomAnchor(label, 225.0);
+                    AnchorPane.setRightAnchor(label, 14.0);
+                    AnchorPane.setLeftAnchor(label, 14.0);
                 }
             }
         });
