@@ -34,19 +34,19 @@ public class TextArrayManager {
         accepted = FXCollections.observableArrayList();
         rejected = FXCollections.observableArrayList();
         colStyle = "-fx-font-family: \"Courier New\";"
-                + "\n -fx-font-size: 18";
-        characterSize = 12;
+                + "-fx-font-size: 16; -fx-alignment: center-right;";
+        characterSize = 11;
     }
 
     public void setHeaders() {
         table.getColumns().clear();
         TableColumn<ObservableList<String>, String> header = new TableColumn<>("");
         for (int i = 3; i < array[0].length - 1; i++) {
-            if (!array[0][i - 1].equals(array[0][i])) {
+            if (i == 3 || !array[0][i - 1].equals(array[0][i])) {
                 header = new TableColumn<>(array[0][i].trim());
             }
             String colName = getColumnName(i, array);
-            TableColumn<ObservableList<String>, String> col = new TableColumn<>(colName.trim());
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(colName);
             col.setComparator(new StringComparer());
             col.setPrefWidth(col.getPrefWidth() + 20);
             col.setStyle(colStyle);
@@ -56,23 +56,23 @@ public class TextArrayManager {
             if (!array[0][i].equals(array[0][i + 1])) {
                 table.getColumns().add(header);
             }
+            
         }
         setUpBoundCol();
+        
     }
 
     public static String getColumnName(int col, String[][] textArray) {
         String retVal = "";
         for (int i = 1; i <= 4; i++) {
             String currVal = textArray[i][col].trim();
-            if (!currVal.equals("")) {
                 retVal += currVal;
                 if (i != 4) {
                     retVal += "\n";
-                }
             }
         }
         
-        if (retVal.trim().equals("Fractions") || retVal.trim().equals("Fraction")) {
+        if (col == textArray[0].length - 2) {
             retVal = "\n\n\nFractions";
         }
 
@@ -86,7 +86,7 @@ public class TextArrayManager {
         for (int i = startSpot; i < array.length; i++) {
             ObservableList<String> data = FXCollections.observableArrayList();
             for (int j = 2; j < array[0].length - 1; j++) {
-                data.add(array[i][j].trim());
+                data.add(array[i][j]);
             }
             if (Boolean.parseBoolean(array[i][0])) {
                 accepted.add(data);
@@ -145,8 +145,6 @@ public class TextArrayManager {
                 counter++;
             }
         }
-        ScrollBar bar = (ScrollBar) table.lookup(".scroll-bar:horizontal");
-        bar.setVisible(true);
     }
 
     public TableView<ObservableList<String>> getBoundCol() {

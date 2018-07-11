@@ -8,6 +8,8 @@ package org.cirdles.SquidReportTable;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,8 +59,8 @@ public class GuiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonState = ButtonTypes.accepted;
-        boundCol.setFixedCellSize(25);
-        reportsTable.setFixedCellSize(25);
+        boundCol.setFixedCellSize(24);
+        reportsTable.setFixedCellSize(24);
         footnoteText.setEditable(false);
         setStyles();
     }
@@ -103,12 +105,23 @@ public class GuiController implements Initializable {
         ScrollBar rTBar = (ScrollBar) reportsTable.lookup(".scroll-bar:vertical");
         ScrollBar bCBar = (ScrollBar) boundCol.lookup(".scroll-bar:vertical");
         rTBar.valueProperty().bindBidirectional(bCBar.valueProperty());
+
+        ScrollBar rtHbar = (ScrollBar) reportsTable.lookup(".scroll-bar:horizontal");
+        ScrollBar bHbar = (ScrollBar) boundCol.lookup(".scroll-bar:horizontal");
+        rtHbar.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean aBoolean, final Boolean aBoolean2) {
+                if (rtHbar.isVisible()) {
+                    bHbar.setVisible(true);
+                }
+            }
+        });
     }
 
     private void setStyles() {
         String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
-                + "-fx-font-size: 19;}";
+                + "-fx-font-size: 17; -fx-text-alignment: left;}";
         reportsTable.setStyle(tableStyle);
         boundCol.setStyle(tableStyle);
         fractionsButtons.setStyle("-fx-background-color: orange;"
