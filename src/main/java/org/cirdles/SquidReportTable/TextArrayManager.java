@@ -8,7 +8,6 @@ package org.cirdles.SquidReportTable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.cirdles.SquidReportTable.utilities.StringComparer;
@@ -55,7 +54,6 @@ public class TextArrayManager {
             col.setStyle(colStyle);
             final int colNum = i - 2;
             col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colNum)));
-            col.setSortable(false);
             header.getColumns().add(col);
             if (!array[0][i].equals(array[0][i + 1])) {
                 table.getColumns().add(header);
@@ -63,11 +61,11 @@ public class TextArrayManager {
         }
         setUpBoundCol();
     }
-    
+
     public int getMaxColumnHeaderLength(String input) {
         int max = 0;
         String[] levels = input.split("\n");
-        for(int i = 0; i < levels.length; i++) {
+        for (int i = 0; i < levels.length; i++) {
             max = (levels[i].length() > max) ? levels[i].length() : max;
         }
         return max;
@@ -77,12 +75,12 @@ public class TextArrayManager {
         String retVal = "";
         for (int i = 1; i <= 4; i++) {
             String currVal = textArray[i][col].trim();
-                retVal += currVal;
-                if (i != 4) {
-                    retVal += "\n";
+            retVal += currVal;
+            if (i != 4) {
+                retVal += "\n";
             }
         }
-        
+
         if (col == textArray[0].length - 2) {
             retVal = "\n\n\nFractions";
         }

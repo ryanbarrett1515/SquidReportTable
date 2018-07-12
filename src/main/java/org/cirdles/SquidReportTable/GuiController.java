@@ -82,8 +82,8 @@ public class GuiController implements Initializable {
             setUpColFootnote();
             setUpScroller();
             setUpColFootnote();
-            boundCol.refresh();
             reportsTable.refresh();
+            boundCol.refresh();
         }
     }
 
