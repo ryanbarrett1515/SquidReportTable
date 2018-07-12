@@ -34,8 +34,8 @@ public class TextArrayManager {
         accepted = FXCollections.observableArrayList();
         rejected = FXCollections.observableArrayList();
         colStyle = "-fx-font-family: \"Courier New\";"
-                + "-fx-font-size: 16; -fx-alignment: center-right;";
-        characterSize = 11;
+                + "-fx-font-size: 14; -fx-alignment: center-right;";
+        characterSize = 10;
     }
 
     public void setHeaders() {

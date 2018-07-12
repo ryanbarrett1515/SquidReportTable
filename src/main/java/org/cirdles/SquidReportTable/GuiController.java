@@ -82,6 +82,8 @@ public class GuiController implements Initializable {
             setUpColFootnote();
             setUpScroller();
             setUpColFootnote();
+            boundCol.refresh();
+            reportsTable.refresh();
         }
     }
 
@@ -103,6 +105,8 @@ public class GuiController implements Initializable {
         } else {
             tableManager.setRejected();
         }
+        reportsTable.refresh();
+        boundCol.refresh();
     }
 
     private void setUpScroller() {
@@ -145,7 +149,7 @@ public class GuiController implements Initializable {
     private void setStyles() {
         String tableStyle = ".table-view {"
                 + "-fx-font-family: \"Times New Roman\";"
-                + "-fx-font-size: 17; -fx-text-alignment: left;}";
+                + "-fx-font-size: 15; -fx-text-alignment: left;}";
         reportsTable.setStyle(tableStyle);
         boundCol.setStyle(tableStyle);
         fractionsButtons.setStyle("-fx-background-color: orange;"
