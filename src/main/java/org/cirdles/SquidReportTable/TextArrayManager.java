@@ -5,8 +5,11 @@
  */
 package org.cirdles.SquidReportTable;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,6 +44,10 @@ public class TextArrayManager {
 
     public void setHeaders() {
         table.getColumns().clear();
+
+        List<TableColumn<ObservableList<String>, String>> headers = new ArrayList<>();
+        List<TableColumn<ObservableList<String>, String>> columns = new ArrayList<>();
+
         TableColumn<ObservableList<String>, String> header = new TableColumn<>("");
         for (int i = 3; i < array[0].length - 1; i++) {
             if (i == 3 || !array[0][i - 1].equals(array[0][i])) {
@@ -55,11 +62,48 @@ public class TextArrayManager {
             final int colNum = i - 2;
             col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colNum)));
             header.getColumns().add(col);
+            columns.add(col);
             if (!array[0][i].equals(array[0][i + 1])) {
                 table.getColumns().add(header);
+                headers.add(header);            
+                columnReorder2(header, columns);
+                columns = new ArrayList<>();
             }
         }
+        columnReorder(table, headers);
         setUpBoundCol();
+    }
+
+    public static void columnReorder(TableView table, List<TableColumn<ObservableList<String>, String>> columns) {
+        table.getColumns().addListener(new ListChangeListener() {
+            public boolean suspended;
+
+            @Override
+            public void onChanged(Change change) {
+                change.next();
+                if (change.wasReplaced() && !suspended) {
+                    this.suspended = true;
+                    table.getColumns().setAll(columns);
+                    this.suspended = false;
+                }
+            }
+        });
+    }
+
+    public static void columnReorder2(TableColumn col, List<TableColumn<ObservableList<String>, String>> columns) {
+        col.getColumns().addListener(new ListChangeListener() {
+            public boolean suspended;
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                change.next();
+                if (change.wasReplaced() && !suspended) {
+                    this.suspended = true;
+                    col.getColumns().setAll(columns);
+                    this.suspended = false;
+                }
+            }
+        });
     }
 
     public int getMaxColumnHeaderLength(String input) {
