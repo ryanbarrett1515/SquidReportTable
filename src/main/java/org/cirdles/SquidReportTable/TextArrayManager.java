@@ -26,6 +26,7 @@ public class TextArrayManager {
     private ObservableList<ObservableList<String>> rejected;
     private String colStyle;
     private final int characterSize;
+    private final int columnHeaderCharacterSize;
 
     public TextArrayManager(TableView<ObservableList<String>> boundCol, TableView<ObservableList<String>> table, String[][] array) {
         this.boundCol = boundCol;
@@ -36,6 +37,7 @@ public class TextArrayManager {
         colStyle = "-fx-font-family: \"Courier New\";"
                 + "-fx-font-size: 14; -fx-alignment: center-right;";
         characterSize = 10;
+        columnHeaderCharacterSize = 11;
     }
 
     public void setHeaders() {
@@ -46,20 +48,29 @@ public class TextArrayManager {
                 header = new TableColumn<>(array[0][i].trim());
             }
             String colName = getColumnName(i, array);
+            int colLength = getMaxColumnHeaderLength(colName);
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(colName);
             col.setComparator(new StringComparer());
-            col.setPrefWidth(col.getPrefWidth() + 20);
+            col.setPrefWidth(colLength * columnHeaderCharacterSize + 20);
             col.setStyle(colStyle);
             final int colNum = i - 2;
             col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colNum)));
+            col.setSortable(false);
             header.getColumns().add(col);
             if (!array[0][i].equals(array[0][i + 1])) {
                 table.getColumns().add(header);
             }
-            
         }
         setUpBoundCol();
-        
+    }
+    
+    public int getMaxColumnHeaderLength(String input) {
+        int max = 0;
+        String[] levels = input.split("\n");
+        for(int i = 0; i < levels.length; i++) {
+            max = (levels[i].length() > max) ? levels[i].length() : max;
+        }
+        return max;
     }
 
     public static String getColumnName(int col, String[][] textArray) {
