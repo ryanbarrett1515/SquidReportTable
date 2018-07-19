@@ -18,7 +18,7 @@ public class FileHandler {
         FileChooser fc = new FileChooser();
         fc.setTitle("CSV Selector");
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("CSV Files", "*.csv", "*.CSV"));
-        fc.setInitialDirectory(new File("src/main/resources/org/cirdles/SquidReportTable/"));
+//        fc.setInitialDirectory(new File("src/main/resources/org/cirdles/SquidReportTable/"));
 
         File csvFile = fc.showOpenDialog(primaryStageWindow);
         
